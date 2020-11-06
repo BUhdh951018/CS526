@@ -16,8 +16,10 @@ public class Hw1_P1 {
 		// loop over the array to get the total, min and max
 		for (int j : a) {
 			total += j;
-			min = Math.min(min, j);
-			max = Math.max(max, j);
+			if (j < min)
+				min = j;
+			if (j > max)
+				max = j;
 		}
 		// calculate the average
 		avg = total / a.length;
