@@ -1,0 +1,64 @@
+Algorithm getPath()
+    object.getDistance(city)
+
+Algorithm getDistance(city)
+    nextCity = city
+    if city equals 'Z'
+        then lastCity = city
+            add city to pathGood
+            add city to PathBad
+    else if nextCity is null
+        then from pathBad remove lastCity
+             lastCity = the last one of pathBad
+             add lastCity to pathGood
+             shortestDistance minus the recent add distance
+    else
+        lastPair = nextCity
+        lastCity = second character in nextCity
+
+        for character in nextCity do
+            if usedCityList not contains character
+                then usedCityList add the character
+
+        if pathBad is empty
+            then pathBad add city
+        pathBad add lastCity
+
+        if pathGood is empty
+            then pathGood add city
+        pathGood add lastCity
+
+        shortestDistance plus the distance of nextCity
+
+        if lastCity equals "Z"
+            then print the sequence of all node
+                 print the shortest path
+                 print the shortest path length
+        else
+            getDistance(lastCity)
+
+Algorithm getNextCity(city)
+    arrayList adjacentCity = getAdjacentCity(city)
+    smallestDD = null
+    maxDistance = MAX VALUE
+    for cityPair in adjacentCity do
+        nextCity = the second character in cityPair
+
+        if nextCity's distance smaller than maxDistance and usedCityList not contain nextCity
+            then maxDistance = nextCity's distance
+            smallestDD = cityPair
+
+    return smallestDD
+
+Algorithm getNextCity(city)
+    arrayList adjacentCity = getAdjacentCity(city)
+    smallestDD = null
+    maxDistance = MAX VALUE
+    for cityPair in adjacentCity do
+        nextCity = the second character in cityPair
+
+        if nextCity's distance smaller than maxDistance and usedCityList not contain nextCity
+            then maxDistance = nextCity's distance + cityPair's graph distance
+            smallestDD = cityPair
+
+    return smallestDD
