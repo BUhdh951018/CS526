@@ -163,14 +163,18 @@ public class Hw6_P5 {
             // if has friend
             if (adjMatrix[index][i].equals("1")) {
                 // add to list
-                friendList.add(name.get(i - 1));
+                if (!friendList.contains(name.get(i - 1)))
+                    friendList.add(name.get(i - 1));
                 // check this friend's friend for indirect friend
                 for (int j = 0; j < adjMatrix[i].length; j++) {
                     // if has friend add to list
                     if (adjMatrix[i][j].equals("1")) {
                         // check not person himself
-                        if (!name.get(j - 1).equals(person))
-                            friendList.add(name.get(j - 1));
+                        String friend = name.get(j - 1);
+                        if (!friend.equals(person) && !friendList.contains(friend)) {
+                            friendList.add(friend);
+                        }
+
                     }
                 }
             }
@@ -182,6 +186,7 @@ public class Hw6_P5 {
         String[] friendName = names.split(",");
         // set check flag
         String flag = "No";
+
         // if both name are the key in the friend map
         if (nameMap.containsKey(friendName[0]) && nameMap.containsKey(friendName[1])) {
             // if the element of the correspond row and column is 1
@@ -200,6 +205,10 @@ public class Hw6_P5 {
                         break;
                     }
                 }
+            }
+            // if two name are same
+            if (friendName[0].equals(friendName[1])) {
+                flag = "No";
             }
             System.out.println(flag);
         } else {
