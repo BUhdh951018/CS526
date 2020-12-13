@@ -13,32 +13,33 @@ import java.util.Scanner;
  * @date 2020/12/6 3:44 下午
  */
 public class Hw6_P5 {
+    // array list for save name
+    private static final ArrayList<String> name = new ArrayList<>();
+    // hash map for saving friend list of a user, eg: Jhon -> friend: Mary, Mike, Tom
+    private static final HashMap<String, ArrayList<String>> friendMap = new HashMap<>();
+    // hash map for saving the user sequence (user index), eg: jhon -> 1
+    private static final HashMap<String, Integer> nameMap = new HashMap<>();
+
     public static void main(String[] args) throws IOException {
-        // array list for save name
-        ArrayList<String> name = new ArrayList<>();
-        // hash map for saving friend list of a user, eg: Jhon -> friend: Mary, Mike, Tom
-        HashMap<String, ArrayList<String>> friendMap = new HashMap<>();
         // read friend input to friend map
-        readFile(name, friendMap);
+        readFile();
 
         // adjacency matrix for saving friend relationship
         String[][] adjacencyMatrix = new String[name.size() + 1][name.size() + 1];
         // set the matrix for first row and first column with user name
-        getAdjMatrix(adjacencyMatrix, name);
+        getAdjMatrix(adjacencyMatrix);
 
-        // hash map for saving the user sequence (user index), eg: jhon -> 1
-        HashMap<String, Integer> nameMap = new HashMap<>();
         // set friend relationship in matrix
-        setFriend(name, friendMap, adjacencyMatrix, nameMap);
+        setFriend(adjacencyMatrix);
 
         // print the matrix
         printAdjMatrix(adjacencyMatrix);
 
         // operation menu
-        menu(name, nameMap, adjacencyMatrix);
+        menu(adjacencyMatrix);
     }
 
-    public static void readFile(ArrayList<String> name, HashMap<String, ArrayList<String>> friendMap) throws IOException {
+    public static void readFile() throws IOException {
         BufferedReader in = new BufferedReader(new FileReader("src/friends_input.txt"));
         String str;
         // read file
@@ -62,7 +63,7 @@ public class Hw6_P5 {
         }
     }
 
-    public static void getAdjMatrix(String[][] adjMatrix, ArrayList<String> name) {
+    public static void getAdjMatrix(String[][] adjMatrix) {
         for (int i = 0; i < adjMatrix.length; i++) {
             for (int j = 0; j < adjMatrix.length; j++) {
                 // set each element in the 2D array empty string
@@ -80,7 +81,7 @@ public class Hw6_P5 {
         }
     }
 
-    public static void setFriend(ArrayList<String> name, HashMap<String, ArrayList<String>> friendMap, String[][] adjMatrix, HashMap<String, Integer> nameMap) {
+    public static void setFriend(String[][] adjMatrix) {
         // set name and index in hash map according to the sequence in array list name
         for (int i = 0; i < name.size(); i++) {
             nameMap.put(name.get(i), i + 1);
@@ -109,7 +110,7 @@ public class Hw6_P5 {
         }
     }
 
-    public static void menu(ArrayList<String> name, HashMap<String, Integer> nameMap, String[][] adjMatrix) {
+    public static void menu(String[][] adjMatrix) {
         while (true) {
             try {
                 // menu
@@ -129,7 +130,7 @@ public class Hw6_P5 {
                     // check whether exist
                     if (nameMap.containsKey(personName)) {
                         // get person's friend
-                        getFriend(nameMap, adjMatrix, name, friendList, personName);
+                        getFriend(adjMatrix, friendList, personName);
                     } else {
                         System.out.println("name invalid!");
                         continue;
@@ -141,7 +142,7 @@ public class Hw6_P5 {
                     // check friend or not
                     System.out.println("Enter 2 names like(amy,mike) without space, first letter must be uppercase:");
                     String names = in.next();
-                    checkFriend(names, nameMap, adjMatrix);
+                    checkFriend(names, adjMatrix);
                 } else if (type == 3) {
                     System.out.println("-------exit-------");
                     break;
@@ -154,8 +155,7 @@ public class Hw6_P5 {
         }
     }
 
-    public static void getFriend(HashMap<String, Integer> nameMap, String[][] adjMatrix, ArrayList<String> name,
-                                 ArrayList<String> friendList, String person) {
+    public static void getFriend(String[][] adjMatrix, ArrayList<String> friendList, String person) {
         // get person index
         int index = nameMap.get(person);
         // check person row in matrix
@@ -181,7 +181,7 @@ public class Hw6_P5 {
         }
     }
 
-    public static void checkFriend(String names, HashMap<String, Integer> nameMap, String[][] adjMatrix) {
+    public static void checkFriend(String names, String[][] adjMatrix) {
         // split input name by ","
         String[] friendName = names.split(",");
         // set check flag
