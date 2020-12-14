@@ -67,14 +67,13 @@ public class project {
                     }
                 }
             }
-
+            // read the direct distance file
             String line2;
             while ((line2 = bufferedReader2.readLine()) != null) {
-                String[] data = line2.split(" ");
+                String[] data = line2.split(" +");
                 //save distance in hash map, use city as key and distance as the value
-                directDistance.put(data[0], Integer.parseInt(data[1]));
+                directDistance.put(data[0].trim(), Integer.parseInt(data[1].trim()));
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }

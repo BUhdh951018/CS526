@@ -20,41 +20,10 @@ public class Algorithm1 extends method{
     }
 
     public void getDistance(String city) {
+        // according to the algorithm get the next node
         String nextCity = getNextCity(city);
-        // if user enter city Z
-        if (city.equals("Z")) {
-            this.lastCity = city;
-            pathBad.add(city);
-            pathGood.add(city);
-        } else if (nextCity == null) { // if we could not find the next city
-            // backtrack to the last node
-            this.pathGood.remove(lastCity);
-            this.lastCity = pathGood.get(pathGood.size() - 1);
-            this.pathBad.add(lastCity);
-            shortestDistance -= graph.get(lastPair);
-        } else {
-            // set lastPair and lastCity
-            lastPair = nextCity;
-            lastCity = Character.toString(nextCity.charAt(1));
-            // check whether the nextCity has been visited
-            for (char c : nextCity.toCharArray()) {
-                if (!this.usedCityList.contains(Character.toString(c))) {
-                    usedCityList.add(Character.toString(c));
-                }
-            }
-            // add the city to path
-            if (pathGood.isEmpty()) {
-                pathGood.add(city);
-            }
-            pathGood.add(lastCity);
 
-            if (pathBad.isEmpty()) {
-                pathBad.add(city);
-            }
-            pathBad.add(lastCity);
-            // add the distance
-            shortestDistance += graph.get(nextCity);
-        }
+        checkCity(city, nextCity);
 
         if (lastCity.equals("Z")) {
             // if reach the end print
@@ -80,7 +49,9 @@ public class Algorithm1 extends method{
             // get the distance of adjacent city to Z, and check whether is smaller and not has been used
             if (distance.get(nextCity) < maxDistance &&
                     !this.usedCityList.contains(nextCity)) {
+                // set max distance for dd of next city
                 maxDistance = distance.get(nextCity);
+                // save city pair
                 smallestDD = cityPair;
             }
         }

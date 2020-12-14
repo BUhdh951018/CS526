@@ -1,3 +1,4 @@
+import java.nio.file.StandardWatchEventKinds;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,45 +18,16 @@ public class Algorithm2 extends method{
     public void getPath() {
         getDistance(this.city);
     }
-    // this function is same as the one in algorithm1
+
     public void getDistance(String city) {
+        // according to the algorithm get the next node
         String nextCity = getNextCity(city);
 
-        if (city.equals("Z")) {
-            this.lastCity = city;
-            pathBad.add(city);
-            pathGood.add(city);
-        } else if (nextCity == null) {
-            this.pathGood.remove(lastCity);
-            this.lastCity = pathGood.get(pathGood.size() - 1);
-            this.pathBad.add(lastCity);
-            shortestDistance -= graph.get(lastPair);
-        } else {
-            lastPair = nextCity;
-            lastCity = Character.toString(nextCity.charAt(1));
-
-            for (char c : nextCity.toCharArray()) {
-                if (!this.usedCityList.contains(Character.toString(c))) {
-                    usedCityList.add(Character.toString(c));
-                }
-            }
-
-            if (pathGood.isEmpty()) {
-                pathGood.add(city);
-            }
-            pathGood.add(lastCity);
-
-            if (pathBad.isEmpty()) {
-                pathBad.add(city);
-            }
-            pathBad.add(lastCity);
-
-            shortestDistance += graph.get(nextCity);
-        }
+        checkCity(city, nextCity);
 
         if (lastCity.equals("Z")) {
-            System.out.println("Sequence of all node: " + printPath(this.pathGood));
-            System.out.println("Shortest path: " + printPath(this.pathBad));
+            System.out.println("Sequence of all node: " + printPath(this.pathBad));
+            System.out.println("Shortest path: " + printPath(this.pathGood));
             System.out.println("Shortest path length: " + this.shortestDistance);
             System.out.println();
         } else {
@@ -65,7 +37,7 @@ public class Algorithm2 extends method{
 
     public String getNextCity(String city) {
         ArrayList<String> adjacentCity = getAdjacentCity(city);
-        // city pair for save the smallest dd of adjacent city
+        // city pair for save the smallest dd + weight of adjacent city
         String smallestDD = null;
         maxDistance = Integer.MAX_VALUE;
         // get the smallest dd of adjacent city
